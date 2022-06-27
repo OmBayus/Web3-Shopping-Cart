@@ -3,7 +3,7 @@ const { MONGODB_URI } = require("./config")
 
 console.log('connecting to', MONGODB_URI)
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI)
   .then(result => {
       console.log('connected to MongoDB')
   })
