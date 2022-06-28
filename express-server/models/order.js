@@ -6,6 +6,7 @@ const orderSchema = new mongoose.Schema({
         ref:"product",
         require:true
     },
+    email:String,
     isPaid:Boolean
 })
 
