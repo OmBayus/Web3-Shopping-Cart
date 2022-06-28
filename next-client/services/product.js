@@ -1,8 +1,9 @@
 import axios from "axios"
 
-const url = "http://localhost:4000/api/product/"
-
+const url = process.env.NEXT_PUBLIC_API_URL + "product/"
+console.log(url)
 const getAll = ()=>{
+    
     return axios.get(url+"getAll")
 }
 
