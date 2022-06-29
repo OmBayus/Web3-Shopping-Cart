@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const Order = require("../models/order");
+const { abi } = require("../constants/abi");
+const ethers = require("ethers");
+const config = require("../utils/config")
 const Product = require("../models/product");
 // const {authExactor} = require("../utils/middleware")
 
@@ -14,19 +17,28 @@ router.post("/create", async (req, res) => {
 
 router.post("/pay", (req, res) => {
   const { id } = req.body;
-  Order.findById(id, (error, order) => {
+  Order.findById(id, async (error, order) => {
     if (error) {
       res.json(error);
     } else {
       if (order) {
-        order.isPaid = true;
-        order.save((err, newOrder) => {
-          if (err) {
-            res.json({ error: err });
-          } else {
-            res.json(newOrder);
-          }
-        });
+        const provider = new ethers.providers.JsonRpcBatchProvider(config.CHAIN_URL);
+        const contractAddress = "0xe92807bF78323d96Bf91D68353C79A3fA33bA3A9";
+        const contract = new ethers.Contract(contractAddress, abi, provider);
+        const result = await contract.getOrder(id);
+        if (result) {
+          order.isPaid = true;
+          order.save((err, newOrder) => {
+            if (err) {
+              res.json({ error: err });
+            } else {
+              res.json(newOrder);
+            }
+          });
+        }
+        else{
+          res.json({error: "Order has not been paid yet"})
+        }
       } else {
         res.json({ error: "Order not found" });
       }
