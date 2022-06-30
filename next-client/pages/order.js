@@ -1,4 +1,3 @@
-import AppBar from "../components/appbar";
 import {useRouter} from "next/router"
 import { useEffect,useState } from "react";
 import { ethers } from "ethers";
@@ -60,7 +59,6 @@ const Order = ({ query }) => {
 
   if(orderData.isPaid){
     return(<div>
-      <AppBar />
       <div>
         Paid
       </div>
@@ -68,7 +66,6 @@ const Order = ({ query }) => {
   }
   return (
     <>
-      <AppBar />
       <Payment setOrderData={setOrderData} query={query} />
       
     </>
