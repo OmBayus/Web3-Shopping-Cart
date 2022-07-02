@@ -51,7 +51,7 @@ export default function Wallet({query,pay}) {
 
   async function execute() {
     if (typeof window.ethereum !== "undefined") {
-      const contractAddress = "0xe92807bF78323d96Bf91D68353C79A3fA33bA3A9";
+      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT;
       const contract = new ethers.Contract(contractAddress, abi, signer);
       try {
         const tx = await contract.pay(query.id);

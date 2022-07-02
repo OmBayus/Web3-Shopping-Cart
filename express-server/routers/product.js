@@ -17,8 +17,13 @@ router.get("/getAll", (req, res) => {
 router.post("/add", async (req, res) => {
     const {name, price, description} = req.body;
     const product = new Product({name, price, description});
-    await product.save();
-    res.json(product);
+    product.save()
+    .then(result=>{
+        res.json(result);
+    })
+    .catch(err=>{
+        res.status(500).json(err);
+    })
 });
 
 
