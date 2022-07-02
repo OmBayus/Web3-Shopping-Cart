@@ -3,33 +3,34 @@ pragma solidity 0.8.7;
 
 contract Payment{
 
-    mapping(string=>bool) public orderIsPaid;
-    mapping(string=>uint256) public productToPrice;
-    address payable owner;
+    mapping(string=>uint256) public orderToAmountPaid;
+    address payable immutable owner;
 
     constructor() {
         owner = payable(msg.sender);
     }
 
-    function createProduct(string memory _product,uint256 _price) public onlyOwner{
-        productToPrice[_product] = _price;
-    }
-
-    function pay (string memory _order,string memory _product) payable public{
-        require(
-            msg.value == productToPrice[_product] && productToPrice[_product] != 0,
-            "You need to spend more ETH!"
-        );
+    function pay (string memory _order) payable public{
         owner.transfer(msg.value);
-        orderIsPaid[_order] = true;
+        orderToAmountPaid[_order] = msg.value;
     }
 
-    function getOrder (string memory _order) public view returns(bool){
-        return orderIsPaid[_order];
+    function getOrder (string memory _order) public view returns(uint256){
+        return orderToAmountPaid[_order];
     }
 
-     modifier onlyOwner() {
+    modifier onlyOwner() {
         require(msg.sender == owner);
         _;
     }
+
+    receive() external payable {
+        owner.transfer(msg.value);
+    }
+
+    fallback() external payable{
+        owner.transfer(msg.value);
+    }
+
+
 }
