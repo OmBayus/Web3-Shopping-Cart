@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {useRouter} from "next/router"
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -9,23 +8,6 @@ import Typography from '@mui/material/Typography';
 import OrderService from "../services/order"
 
 export default function BasicCard({_id,name,price,description,add}) {
-
-  const router = useRouter()
-
-  const buy = ()=>{
-    const email = prompt("email")
-
-    if(email){
-      OrderService.create({product:_id,email})
-      .then(res=>{
-        router.push("/order?id="+res.data._id)
-      })
-      .catch(err=>{
-        alert("Error")
-      })
-
-    }
-  }
 
   return (
     <Card sx={{ minWidth: 275 }}>

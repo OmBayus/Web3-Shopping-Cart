@@ -9,8 +9,13 @@ const Product = require("../models/product");
 // router.use(authExactor)
 
 router.post("/create", async (req, res) => {
-  const { product, email } = req.body;
-  const order = new Order({ product, email, isPaid: false });
+  const { products, email } = req.body;
+  let price = 0;
+  for(let product of products) {
+    const temp = await Product.findById(product.productId)
+    price += temp.price * product.quantity
+  }
+  const order = new Order({ products, email,price:price.toFixed(8), isPaid: false });
   await order.save();
   res.json(order);
 });
@@ -23,10 +28,10 @@ router.post("/pay", (req, res) => {
     } else {
       if (order) {
         const provider = new ethers.providers.JsonRpcBatchProvider(config.CHAIN_URL);
-        const contractAddress = "0xe92807bF78323d96Bf91D68353C79A3fA33bA3A9";
+        const contractAddress = "0x7DCC9447b8176ee69dB5303303BE86A38B0a7ddD";
         const contract = new ethers.Contract(contractAddress, abi, provider);
         const result = await contract.getOrder(id);
-        if (result) {
+        if (Number(result.toString()) >= Number(ethers.utils.parseEther(order.price.toString()))) {
           order.isPaid = true;
           order.save((err, newOrder) => {
             if (err) {

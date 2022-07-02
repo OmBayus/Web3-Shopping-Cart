@@ -17,15 +17,15 @@ const Order = ({ query }) => {
     isPaid:false
   })
 
-  async function getOrder() {
+  async function getOrder(order) {
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.JsonRpcBatchProvider(process.env.NEXT_PUBLIC_RPC_URL)
       const contractAddress = process.env.NEXT_PUBLIC_CONTRACT;
       const contract = new ethers.Contract(contractAddress, abi,provider);
       try {
         const result = await contract.getOrder(query.id);
-        if(result){
-          setOrderData({...orderData,isPaid:result})
+        if(Number(result.toString()) >= order.price){
+          setOrderData({...orderData,isPaid:true})
         }
       } catch (error) {
         console.log(error);
@@ -34,6 +34,23 @@ const Order = ({ query }) => {
       console.log("Please install MetaMask");
     }
   }
+
+  const pay = ()=>{
+    OrderService.pay(query.id)
+    .then(res=>{
+      if(res.data){
+        console.log(res.data)
+        setOrderData(res.data)
+      }
+      else{
+        alert("Error")
+      }
+    })
+    .catch(err=>{
+      alert("Error")
+    })
+  }
+
   useEffect(()=>{
     if(!query.id){
       router.push("/")
@@ -42,7 +59,8 @@ const Order = ({ query }) => {
       .then(res=>{
         if(res.data){
           setOrderData(res.data)
-          getOrder()
+          if(!res.data.isPaid)
+            getOrder(res.data)
         }
         else{
           router.push("/")
@@ -66,7 +84,7 @@ const Order = ({ query }) => {
   }
   return (
     <>
-      <Payment setOrderData={setOrderData} query={query} />
+      <Payment setOrderData={setOrderData} query={query} price={orderData.price} pay={pay} />
       
     </>
   );
