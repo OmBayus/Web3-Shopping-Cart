@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import OrderService from "../services/order"
 
-export default function BasicCard({_id,name,price,description}) {
+export default function BasicCard({_id,name,price,description,add}) {
 
   const router = useRouter()
 
@@ -41,7 +41,7 @@ export default function BasicCard({_id,name,price,description}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={buy}>Buy</Button>
+        <Button size="small" onClick={add}>Add</Button>
       </CardActions>
     </Card>
   );
