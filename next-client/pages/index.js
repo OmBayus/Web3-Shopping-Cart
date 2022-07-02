@@ -1,12 +1,10 @@
 import Wallet from "../components/wallet";
-import AppBar from "../components/appbar";
 import Products from "../components/products";
 import ProductService from "../services/product";
 
 export default function Home({ products }) {
   return (
     <>
-      <AppBar />
       <Products products={products} />
     </>
   );

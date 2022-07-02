@@ -1,4 +1,3 @@
-import AppBar from "../components/appbar";
 import {useRouter} from "next/router"
 import { useEffect,useState } from "react";
 import { ethers } from "ethers";
@@ -21,7 +20,7 @@ const Order = ({ query }) => {
   async function getOrder() {
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.JsonRpcBatchProvider(process.env.NEXT_PUBLIC_RPC_URL)
-      const contractAddress = "0xe92807bF78323d96Bf91D68353C79A3fA33bA3A9";
+      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT;
       const contract = new ethers.Contract(contractAddress, abi,provider);
       try {
         const result = await contract.getOrder(query.id);
@@ -60,7 +59,6 @@ const Order = ({ query }) => {
 
   if(orderData.isPaid){
     return(<div>
-      <AppBar />
       <div>
         Paid
       </div>
@@ -68,7 +66,6 @@ const Order = ({ query }) => {
   }
   return (
     <>
-      <AppBar />
       <Payment setOrderData={setOrderData} query={query} />
       
     </>

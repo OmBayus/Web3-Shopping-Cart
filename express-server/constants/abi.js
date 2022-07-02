@@ -1,6 +1,15 @@
 module.exports = {
     abi: [
 		{
+			"inputs": [],
+			"stateMutability": "nonpayable",
+			"type": "constructor"
+		},
+		{
+			"stateMutability": "payable",
+			"type": "fallback"
+		},
+		{
 			"inputs": [
 				{
 					"internalType": "string",
@@ -11,9 +20,9 @@ module.exports = {
 			"name": "getOrder",
 			"outputs": [
 				{
-					"internalType": "bool",
+					"internalType": "uint256",
 					"name": "",
-					"type": "bool"
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",
@@ -27,12 +36,12 @@ module.exports = {
 					"type": "string"
 				}
 			],
-			"name": "orderIsPaid",
+			"name": "orderToAmountPaid",
 			"outputs": [
 				{
-					"internalType": "bool",
+					"internalType": "uint256",
 					"name": "",
-					"type": "bool"
+					"type": "uint256"
 				}
 			],
 			"stateMutability": "view",
@@ -48,8 +57,12 @@ module.exports = {
 			],
 			"name": "pay",
 			"outputs": [],
-			"stateMutability": "nonpayable",
+			"stateMutability": "payable",
 			"type": "function"
+		},
+		{
+			"stateMutability": "payable",
+			"type": "receive"
 		}
 	],
   };
