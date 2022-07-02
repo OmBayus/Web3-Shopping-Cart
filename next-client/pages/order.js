@@ -1,4 +1,3 @@
-import AppBar from "../components/appbar";
 import {useRouter} from "next/router"
 import { useEffect,useState } from "react";
 import { ethers } from "ethers";
@@ -18,15 +17,15 @@ const Order = ({ query }) => {
     isPaid:false
   })
 
-  async function getOrder() {
+  async function getOrder(order) {
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.JsonRpcBatchProvider(process.env.NEXT_PUBLIC_RPC_URL)
-      const contractAddress = "0xe92807bF78323d96Bf91D68353C79A3fA33bA3A9";
+      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT;
       const contract = new ethers.Contract(contractAddress, abi,provider);
       try {
         const result = await contract.getOrder(query.id);
-        if(result){
-          setOrderData({...orderData,isPaid:result})
+        if(Number(result.toString()) >= order.price){
+          setOrderData({...orderData,isPaid:true})
         }
       } catch (error) {
         console.log(error);
@@ -35,6 +34,23 @@ const Order = ({ query }) => {
       console.log("Please install MetaMask");
     }
   }
+
+  const pay = ()=>{
+    OrderService.pay(query.id)
+    .then(res=>{
+      if(res.data){
+        console.log(res.data)
+        setOrderData(res.data)
+      }
+      else{
+        alert("Error")
+      }
+    })
+    .catch(err=>{
+      alert("Error")
+    })
+  }
+
   useEffect(()=>{
     if(!query.id){
       router.push("/")
@@ -43,7 +59,8 @@ const Order = ({ query }) => {
       .then(res=>{
         if(res.data){
           setOrderData(res.data)
-          getOrder()
+          if(!res.data.isPaid)
+            getOrder(res.data)
         }
         else{
           router.push("/")
@@ -60,7 +77,6 @@ const Order = ({ query }) => {
 
   if(orderData.isPaid){
     return(<div>
-      <AppBar />
       <div>
         Paid
       </div>
@@ -68,8 +84,7 @@ const Order = ({ query }) => {
   }
   return (
     <>
-      <AppBar />
-      <Payment setOrderData={setOrderData} query={query} />
+      <Payment setOrderData={setOrderData} query={query} price={orderData.price} pay={pay} />
       
     </>
   );

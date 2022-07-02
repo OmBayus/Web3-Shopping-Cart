@@ -23,7 +23,7 @@ if (typeof window !== "undefined") {
   });
 }
 
-export default function Wallet({query,pay}) {
+export default function Wallet({query,pay,price}) {
   const [isConnected, setIsConnected] = useState(false);
   const [hasMetamask, setHasMetamask] = useState(false);
   const [signer, setSigner] = useState(undefined);
@@ -51,13 +51,13 @@ export default function Wallet({query,pay}) {
 
   async function execute() {
     if (typeof window.ethereum !== "undefined") {
-      const contractAddress = "0xe92807bF78323d96Bf91D68353C79A3fA33bA3A9";
+      const contractAddress = process.env.NEXT_PUBLIC_CONTRACT;
       const contract = new ethers.Contract(contractAddress, abi, signer);
       try {
-        const tx = await contract.pay(query.id);
+        const tx = await contract.pay(query.id,{value:ethers.utils.parseEther(price.toString())});
         await tx.wait();
         const result = await contract.getOrder(query.id);
-        if(result){
+        if(Number(result.toString()) >= Number(ethers.utils.parseEther(price.toString()))){
           pay()
         }
       } catch (error) {
