@@ -15,24 +15,28 @@ router.post("/create", async (req, res) => {
     const temp = await Product.findById(product.productId)
     price += temp.price * product.quantity
   }
-  const order = new Order({ products, email,price:price.toFixed(8), isPaid: false });
+  const order = new Order({ products, email,price:price.toFixed(8), isPaid: false,receiver:"" });
   await order.save();
   res.json(order);
 });
 
 router.post("/pay", (req, res) => {
-  const { id } = req.body;
+  const { id,receiver } = req.body;
   Order.findById(id, async (error, order) => {
     if (error) {
       res.json(error);
     } else {
       if (order) {
+        if(order.isPaid){
+          return res.json(order)
+        }
         const provider = new ethers.providers.JsonRpcBatchProvider(config.CHAIN_URL);
         const contractAddress = "0x7DCC9447b8176ee69dB5303303BE86A38B0a7ddD";
         const contract = new ethers.Contract(contractAddress, abi, provider);
         const result = await contract.getOrder(id);
         if (Number(result.toString()) >= Number(ethers.utils.parseEther(order.price.toString()))) {
           order.isPaid = true;
+          order.receiver = receiver;
           order.save((err, newOrder) => {
             if (err) {
               res.json({ error: err });
@@ -53,6 +57,17 @@ router.post("/pay", (req, res) => {
 
 router.get("/getAll", (req, res) => {
   Order.find({}, (err, orders) => {
+    if (err) {
+      res.json({ error: err });
+    } else {
+      res.json(orders);
+    }
+  });
+});
+
+router.get("/getByAddress/:address", (req, res) => {
+  const { address } = req.params;
+  Order.find({receiver:address}, (err, orders) => {
     if (err) {
       res.json({ error: err });
     } else {

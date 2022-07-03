@@ -35,8 +35,8 @@ const Order = ({ query }) => {
     }
   }
 
-  const pay = ()=>{
-    OrderService.pay(query.id)
+  const pay = (receiver)=>{
+    OrderService.pay(query.id,receiver)
     .then(res=>{
       if(res.data){
         console.log(res.data)

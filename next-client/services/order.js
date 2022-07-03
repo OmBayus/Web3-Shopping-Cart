@@ -7,16 +7,20 @@ const create = (body)=>{
     return axios.post(url+"create",body)
 }
 
-const pay = (id)=>{
-    return axios.post(url+"pay",{id})
+const pay = (id,receiver)=>{
+    return axios.post(url+"pay",{id,receiver})
 }
 
 const get = (id)=>{
     return axios.get(url+"get/"+id)
 }
 
+const getByAddress = (address)=>{
+    return axios.get(url+"getByAddress/"+address)
+}
 
 
-const service = {create,pay,get}
+
+const service = {create,pay,get,getByAddress}
 
 export default service
