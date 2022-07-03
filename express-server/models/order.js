@@ -12,6 +12,7 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     email:String,
+    receiver:String,
     isPaid:Boolean,
     price: Number
 })

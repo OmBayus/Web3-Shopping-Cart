@@ -58,7 +58,8 @@ export default function Wallet({query,pay,price}) {
         await tx.wait();
         const result = await contract.getOrder(query.id);
         if(Number(result.toString()) >= Number(ethers.utils.parseEther(price.toString()))){
-          pay()
+          const reciever = await signer.getAddress()
+          pay(reciever)
         }
       } catch (error) {
         console.log(error);
