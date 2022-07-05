@@ -30,7 +30,7 @@
     bottom: 0;
     left: 0;
     top: 0;
-    background:rgba(0, 0, 0, 0.367);
+    background:rgba(0, 0, 0, 0.103);
 }
 
 .cart{
@@ -42,7 +42,8 @@
     right: 0;
     background: white;
     border-radius: 15px 0 0 0;
-    padding: 5px 10px;
+    padding: 5px 20px;
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
 }
 
 .items{
@@ -73,12 +74,12 @@
 
 .buyBtn{
     position: fixed;
-    bottom: 10px;
+    bottom: 15px;
+    right: 10px;
     border-radius: 50px;
 }
 
 .price{
     position: absolute;
-    right: 10px;
     bottom: 0px;
 }

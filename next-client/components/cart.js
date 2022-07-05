@@ -53,7 +53,7 @@ export default function Cart() {
         <div className={styles.cartScreen} onClick={() => setShow(false)}></div>
       )}
       <Slide direction="left" in={show}>
-        <div className={styles.cart} onClick={() => console.log("hi")}>
+        <div className={styles.cart}>
           <IconButton
             aria-label="close"
             color="warning"
