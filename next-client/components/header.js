@@ -13,24 +13,22 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
-      chainId: 4,
       rpc: { 4: process.env.NEXT_PUBLIC_RPC_URL }, // required
     },
   },
 };
 
-if (typeof window !== "undefined") {
-  web3Modal = new Web3Modal({
-    network: "rinkeby",
-    cacheProvider: false,
-    providerOptions, // required
-  });
-}
-
 const Header = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [signer, setSigner] = useState(undefined);
   const [chainId, setChainId] = useState(undefined);
+
+  useEffect(()=>{
+    web3Modal = new Web3Modal({
+      cacheProvider: false,
+      providerOptions, // required
+    });
+  },[])
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
@@ -97,7 +95,7 @@ const Header = () => {
           </button>
         )}
       </div>
-      <button
+      {/* <button
         onClick={async () => {
           if (isConnected) {
             const contractAddress = process.env.NEXT_PUBLIC_CONTRACT;
@@ -108,7 +106,7 @@ const Header = () => {
         }}
       >
         tikla
-      </button>
+      </button> */}
     </header>
   );
 };

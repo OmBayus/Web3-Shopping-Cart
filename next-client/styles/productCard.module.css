@@ -1,0 +1,35 @@
+.cardImage{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+
+.cardImage img{
+    width: 100px;
+    height: 100px;
+    border-radius: 40%;
+}
+
+.cardBtn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 5px;
+    border-radius:50px;
+    padding: 10px 25px;
+    background: black;
+    transition: .125s ease;
+}
+
+.cardBtn:hover{
+    transform: scale(1.025);
+    background: #141414;
+}
+
+.cardBtn:active{
+    transform: scale(0.99);
+}

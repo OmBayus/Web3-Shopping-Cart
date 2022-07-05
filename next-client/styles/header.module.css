@@ -11,7 +11,6 @@
 .connectBtn{
     background: #0E76FD;
     color: #fff;
-    transition: .125s ease;
     padding: 10px 14px;
     font-weight: 700;
     border-radius: 12px;
@@ -26,6 +25,7 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: button;
     text-transform: none;
+    transition: .125s ease;
 }
 
 .connectBtn:hover{
@@ -58,12 +58,6 @@
 }
 
 .logo span{
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .logo span{
-        display: flex;
-    }
+    display: flex;
 }
 

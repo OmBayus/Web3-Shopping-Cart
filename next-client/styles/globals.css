@@ -16,3 +16,9 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@media (max-width: 768px) {
+  .card-md-dis{
+    display: block!important;
+  }
+}
