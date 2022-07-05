@@ -19,6 +19,7 @@ export const cartSlice = createSlice({
       else{
         state.value.products.push({
           productId: action.payload.product,
+          data: action.payload.data,
           quantity: 1
         })
       }
@@ -33,6 +34,9 @@ export const cartSlice = createSlice({
         state.value.products = state.value.products.filter(item=>item.productId !== action.payload.product)
       }
       state.value.price -= action.payload.price;
+      if(state.value.products.length === 0){
+        state.value.price = 0
+      }
     },
     clear: (state) => {
       state.value.products = [];
