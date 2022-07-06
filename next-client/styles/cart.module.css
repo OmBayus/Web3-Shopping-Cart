@@ -36,6 +36,7 @@
 .cart{
     position: absolute;
     width: 25%;
+    min-width: 350px;
     height: 80%;
     overflow: auto;
     bottom: 0;

@@ -1,0 +1,29 @@
+.footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 4rem;
+    color: rgb(177, 177, 177);
+}
+
+.footer a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:1em;
+    transition: all 0.3s ease-in-out;
+}
+
+.footer a span{
+    margin-left: 5px;
+}
+
+.footer a:hover{
+    color: rgba(177, 177, 177, 0.439);
+}
+
+.icon{
+    font-size: 1.4em;
+}
