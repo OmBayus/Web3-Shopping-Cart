@@ -21,6 +21,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.2",
+    "react-reveal": "^1.2.2",
     "web3modal": "^1.9.8"
   },
   "devDependencies": {
