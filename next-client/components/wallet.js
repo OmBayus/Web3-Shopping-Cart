@@ -32,7 +32,7 @@ export default function Wallet({query,pay,price}) {
     if (typeof window.ethereum !== "undefined") {
       setHasMetamask(true);
     }
-  });
+  },[]);
 
   async function connect() {
     if (typeof window.ethereum !== "undefined") {

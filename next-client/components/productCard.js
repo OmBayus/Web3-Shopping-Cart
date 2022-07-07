@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRouter } from "next/router";
+import Image from 'next/image'
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -11,7 +11,7 @@ export default function BasicCard({ _id, name, price, description, add }) {
   return (
     <Card sx={{ minWidth: 275, maxWidth:350, borderRadius: "10px" }}>
       <div className={styles.cardImage}>
-        <img src="https://img.freepik.com/free-vector/hand-putting-golden-coin-donation-box-donate-concept-charity-share-illustration-flat-style_256722-27.jpg?w=2000" alt="product" />
+        <Image src="https://img.freepik.com/free-vector/hand-putting-golden-coin-donation-box-donate-concept-charity-share-illustration-flat-style_256722-27.jpg?w=2000" alt="product" width={100} height={100} />
       </div>
       <CardContent sx={{textAlign: 'center'}}>
         <Typography variant="h5" component="div" sx={{mb: 1.5}}>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, IconButton } from "@mui/material";
+import Image from 'next/image'
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { remove } from "../reducers/cart";
@@ -47,7 +48,7 @@ export default function StoreCart() {
           <div className={styles.items}>
             {cart.products.map((it) => (
               <div className={styles.item} key={it.productId}>
-                <img src="https://picsum.photos/200" alt="item" />
+                <Image src="https://picsum.photos/200" alt="item" width={50} height={50} />
                 <span>{it.data.name}</span>
                 <span>{it.data.price} BNB</span>
                 <span>{it.quantity}</span>

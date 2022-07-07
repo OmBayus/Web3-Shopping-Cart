@@ -24,20 +24,20 @@
 }
 
 .btn {
-  background: #0e76fd;
-  color: #fff;
-  padding: 10px 14px;
-  font-weight: 700;
-  border-radius: 12px;
-  cursor: pointer;
-  border: 0;
-  box-sizing: border-box;
-  font-size: 100%;
-  line-height: normal;
-  margin: 0;
-  vertical-align: baseline;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-appearance: button;
-  text-transform: none;
-  transition: 0.125s ease;
+  background: #0e76fd!important;
+  color: #fff!important;
+  padding: 10px 14px!important;
+  font-weight: 700!important;
+  border-radius: 12px!important;
+  cursor: pointer!important;
+  border: 0!important;
+  box-sizing: border-box!important;
+  font-size: 100%!important;
+  line-height: normal!important;
+  margin: 0!important;
+  vertical-align: baseline!important;
+  -webkit-tap-highlight-color: transparent!important;
+  -webkit-appearance: button!important;
+  text-transform: none!important;
+  transition: 0.125s ease!important;
 }

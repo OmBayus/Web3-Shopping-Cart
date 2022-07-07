@@ -71,6 +71,7 @@ const Order = ({ query }) => {
         router.push("/")
       })
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
  

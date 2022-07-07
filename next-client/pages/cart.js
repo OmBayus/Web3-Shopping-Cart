@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Grid, Container, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadingButton } from "@mui/lab";
@@ -77,7 +78,7 @@ const CartPage = () => {
               <div>
                 {cart.products.map((it) => (
                   <div className={styles.item} key={it.productId}>
-                    <img src="https://picsum.photos/200" alt="item" />
+                    <Image src="https://picsum.photos/200" alt="item" width={50} height={50} />
                     <span>{it.data.name}</span>
                     <span>{it.data.price} BNB</span>
                     <span>{it.quantity}</span>
