@@ -7,7 +7,7 @@ import OrderService from "../services/order";
 import { clear } from "../reducers/cart";
 import { useRouter } from "next/router";
 import styles from "../styles/cart.module.css";
-import Hero from "../components/Hero";
+import Hero from "../components/hero";
 
 const CartPage = () => {
   const cart = useSelector((state) => state.cart.value);
