@@ -26,9 +26,8 @@
 .btn {
   background: #0e76fd!important;
   color: #fff!important;
-  padding: 10px 14px!important;
+  padding: 9px 16px!important;
   font-weight: 700!important;
-  border-radius: 12px!important;
   cursor: pointer!important;
   border: 0!important;
   box-sizing: border-box!important;
@@ -39,5 +38,14 @@
   -webkit-tap-highlight-color: transparent!important;
   -webkit-appearance: button!important;
   text-transform: none!important;
-  transition: 0.125s ease!important;
+  box-shadow: none!important;
+  transition: .125s ease;
+}
+
+.btn:hover{
+  transform: scale(1.025)!important;
+}
+
+.btn:active{
+  transform: scale(0.95)!important;
 }

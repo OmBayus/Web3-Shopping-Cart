@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Grid, Container, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadingButton } from "@mui/lab";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import OrderService from "../services/order";
 import { clear } from "../reducers/cart";
 import { useRouter } from "next/router";
@@ -15,6 +15,11 @@ const CartPage = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if(cart.products.length === 0)
+      router.push("/")
+  },[])
 
   const clearCart = () => {
     dispatch(clear());
@@ -63,7 +68,8 @@ const CartPage = () => {
                   <LoadingButton
                     variant="contained"
                     type="submit"
-                    className={styles.btn}
+                    style={{ borderRadius: "12px"}}
+                    className={!loading ? styles.btn:{}}
                     loading={loading}
                   >
                     Pay
