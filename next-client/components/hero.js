@@ -1,7 +1,7 @@
-import Zoom from 'react-reveal/Zoom';
+import {Zoom} from "react-awesome-reveal";
 import styles from "../styles/hero.module.css";
 
-const Hero = ({header,description}) => {
+export default function Hero({header,description}){
   return (
     <div className={styles.hero}>
       <Zoom>
@@ -13,5 +13,3 @@ const Hero = ({header,description}) => {
     </div>
   );
 };
-
-export default Hero;

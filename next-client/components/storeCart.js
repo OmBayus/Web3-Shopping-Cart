@@ -1,41 +1,22 @@
 import React from "react";
-import { Button, Container, TextField, IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import OrderService from "../services/order";
-import { clear,remove } from "../reducers/cart";
+import { remove } from "../reducers/cart";
 import { useState } from "react";
-import styles from "../styles/cart.module.css";
+import styles from "../styles/store.cart.module.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Slide from "@mui/material/Slide";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-export default function Cart() {
+export default function StoreCart() {
   const cart = useSelector((state) => state.cart.value);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-
   const router = useRouter();
-
-  const pay = () => {
-    if (email) {
-      OrderService.create({ products: cart.products, email })
-        .then((res) => {
-          router.push("/order?id=" + res.data._id);
-        })
-        .catch((err) => {
-          alert("Error");
-        });
-    }
-  };
-
-  const clearCart = () => {
-    dispatch(clear());
-  };
 
   const Remove = (id,price)=>{
     dispatch(remove({product:id,price}));
@@ -65,7 +46,7 @@ export default function Cart() {
           <h1>Cart</h1>
           <div className={styles.items}>
             {cart.products.map((it) => (
-              <div className={styles.item} key={it.id}>
+              <div className={styles.item} key={it.productId}>
                 <img src="https://picsum.photos/200" alt="item" />
                 <span>{it.data.name}</span>
                 <span>{it.data.price} BNB</span>
@@ -90,7 +71,7 @@ export default function Cart() {
               className={styles.buyBtn}
               color="success"
               variant="contained"
-              onClick={clearCart}
+              onClick={()=>router.push("/cart")}
             >
               Buy
             </Button>
