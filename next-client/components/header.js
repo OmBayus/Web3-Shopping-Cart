@@ -47,17 +47,19 @@ const Header = () => {
   }, []);
 
   async function Connect() {
-    if (typeof window.ethereum !== "undefined") {
-      try {
+    try {
+      if (typeof window.ethereum !== "undefined") {
         const web3ModalProvider = await web3Modal.connect();
         const provider = new ethers.providers.Web3Provider(web3ModalProvider);
         const { chainId } = await provider.getNetwork();
         dispatch(connect({ chainId, signer: provider.getSigner() }));
-      } catch (e) {
-        console.log(e);
+      } else {
+        const provider = await web3Modal.connectTo("walletconnect");
+        const { chainId } = await provider.getNetwork();
+        dispatch(connect({ chainId, signer: provider.getSigner() }));
       }
-    } else {
-      dispatch(disconnect());
+    } catch (error) {
+      console.log(error);
     }
   }
 
