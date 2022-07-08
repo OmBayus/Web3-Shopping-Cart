@@ -2,8 +2,11 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 a {
@@ -13,4 +16,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .card-md-dis{
+    display: block!important;
+  }
 }

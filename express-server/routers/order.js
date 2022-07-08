@@ -12,7 +12,7 @@ router.post("/create", async (req, res) => {
   const { products, email } = req.body;
   let price = 0;
   for(let product of products) {
-    const temp = await Product.findById(product.productId)
+    const temp = await Product.findById(product.product)
     price += temp.price * product.quantity
   }
   const order = new Order({ products, email,price:price.toFixed(8), isPaid: false,receiver:"" });
@@ -22,7 +22,7 @@ router.post("/create", async (req, res) => {
 
 router.post("/pay", (req, res) => {
   const { id,receiver } = req.body;
-  Order.findById(id, async (error, order) => {
+  Order.findOne({_id:id}).populate('products.product').exec(async(error, order) => {
     if (error) {
       res.json(error);
     } else {
@@ -39,7 +39,7 @@ router.post("/pay", (req, res) => {
           order.receiver = receiver;
           order.save((err, newOrder) => {
             if (err) {
-              res.json({ error: err });
+              res.status(500).json(err);
             } else {
               res.json(newOrder);
             }
@@ -58,7 +58,7 @@ router.post("/pay", (req, res) => {
 router.get("/getAll", (req, res) => {
   Order.find({}, (err, orders) => {
     if (err) {
-      res.json({ error: err });
+      res.status(500).json(err);
     } else {
       res.json(orders);
     }
@@ -69,7 +69,7 @@ router.get("/getByAddress/:address", (req, res) => {
   const { address } = req.params;
   Order.find({receiver:address}, (err, orders) => {
     if (err) {
-      res.json({ error: err });
+      res.status(500).json(err);
     } else {
       res.json(orders);
     }
@@ -78,9 +78,9 @@ router.get("/getByAddress/:address", (req, res) => {
 
 router.get("/get/:id", (req, res) => {
   const { id } = req.params;
-  Order.findById(id, (err, order) => {
+  Order.findOne({_id:id}).populate('products.product').exec((err, order) => {
     if (err) {
-      res.json({ error: err });
+      res.status(500).json(err);
     } else {
       res.json(order);
     }
