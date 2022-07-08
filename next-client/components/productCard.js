@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import styles from "../styles/productCard.module.css";
 
-export default function BasicCard({ _id, name, price, description, add }) {
+export default function BasicCard({ name, price, description, add }) {
   return (
     <Card sx={{ minWidth: 275, maxWidth:350, borderRadius: "10px" }}>
       <div className={styles.cardImage}>

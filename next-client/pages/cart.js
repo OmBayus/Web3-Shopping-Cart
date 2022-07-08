@@ -1,8 +1,8 @@
-import Image from 'next/image'
+import Image from "next/image";
 import { Grid, Container, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadingButton } from "@mui/lab";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import OrderService from "../services/order";
 import { clear } from "../reducers/cart";
 import { useRouter } from "next/router";
@@ -11,24 +11,22 @@ import Hero from "../components/hero";
 
 const CartPage = () => {
   const cart = useSelector((state) => state.cart.value);
-  const router = useRouter()
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(cart.products.length === 0)
-      router.push("/")
-  },[])
+    if (cart.products.length === 0) router.push("/");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const clearCart = () => {
     dispatch(clear());
   };
 
-
   const buy = async (e) => {
     e.preventDefault();
-    console.log(cart);
     setLoading(true);
     if (email) {
       await OrderService.create({ products: cart.products, email })
@@ -68,8 +66,8 @@ const CartPage = () => {
                   <LoadingButton
                     variant="contained"
                     type="submit"
-                    style={{ borderRadius: "12px"}}
-                    className={!loading ? styles.btn:{}}
+                    style={{ borderRadius: "12px" }}
+                    className={!loading ? styles.btn : {}}
                     loading={loading}
                   >
                     Pay
@@ -83,8 +81,13 @@ const CartPage = () => {
               <h1>Products</h1>
               <div>
                 {cart.products.map((it) => (
-                  <div className={styles.item} key={it.productId}>
-                    <Image src="https://picsum.photos/200" alt="item" width={50} height={50} />
+                  <div className={styles.item} key={it.product}>
+                    <Image
+                      src="https://picsum.photos/200"
+                      alt="item"
+                      width={50}
+                      height={50}
+                    />
                     <span>{it.data.name}</span>
                     <span>{it.data.price} BNB</span>
                     <span>{it.quantity}</span>
@@ -92,8 +95,10 @@ const CartPage = () => {
                 ))}
               </div>
               <div>
-            <h4 className={styles.price}>Price: {cart.price.toFixed(5)} BNB</h4>
-          </div>
+                <h4 className={styles.price}>
+                  Price: {cart.price.toFixed(5)} BNB
+                </h4>
+              </div>
             </div>
           </Grid>
         </Grid>

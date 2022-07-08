@@ -47,19 +47,19 @@ export default function StoreCart() {
           <h1>Cart</h1>
           <div className={styles.items}>
             {cart.products.map((it) => (
-              <div className={styles.item} key={it.productId}>
+              <div className={styles.item} key={it.product}>
                 <Image src="https://picsum.photos/200" alt="item" width={50} height={50} />
                 <span>{it.data.name}</span>
                 <span>{it.data.price} BNB</span>
                 <span>{it.quantity}</span>
                 {it.quantity === 1 ? <IconButton
                   aria-label="delete"
-                  onClick={()=>Remove(it.productId,it.data.price)}
+                  onClick={()=>Remove(it.product,it.data.price)}
                 >
                   <DeleteIcon />
                 </IconButton> : <IconButton
                   aria-label="delete"
-                  onClick={()=>Remove(it.productId,it.data.price)}
+                  onClick={()=>Remove(it.product,it.data.price)}
                 >
                   <RemoveIcon />
                 </IconButton>}
