@@ -31,6 +31,7 @@ const Order = ({ query }) => {
       try {
         const result = await contract.getOrder(query.id);
         if (Number(result.toString()) >= order.price) {
+          pay("")
           setOrderData({ ...orderData, isPaid: true });
         }
       } catch (error) {
@@ -62,7 +63,6 @@ const Order = ({ query }) => {
       OrderService.get(query.id)
         .then((res) => {
           if (res.data) {
-            console.log(res.data);
             setOrderData(res.data);
             if (!res.data.isPaid) getOrder(res.data);
           } else {
@@ -82,7 +82,7 @@ const Order = ({ query }) => {
         <Grid container spacing={3}>
           <Grid item md={6}>
             <div className={styles.card}>
-              {!orderData.isPaid ? (<Payment styles={styles} />) : ( 
+              {!orderData.isPaid ? (<Payment pay={pay} price={orderData.price} id={orderData._id}  styles={styles} />) : ( 
               <div>
                 <h1>Payment received.</h1>
               </div>

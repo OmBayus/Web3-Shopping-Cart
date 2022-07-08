@@ -1,10 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import Web3Modal from "web3modal";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { ethers } from "ethers";
-import { abi } from "../constants/abi";
+import { useSelector, useDispatch } from "react-redux";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import NextLink from "next/link";
+import { connect, disconnect } from "../reducers/wallet";
 import styles from "../styles/header.module.css";
 
 let web3Modal;
@@ -19,47 +20,87 @@ const providerOptions = {
 };
 
 const Header = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [signer, setSigner] = useState(undefined);
-  const [chainId, setChainId] = useState(undefined);
+  const dispatch = useDispatch();
+  const wallet = useSelector((state) => state.wallet.value);
 
-  useEffect(()=>{
+  useEffect(() => {
     web3Modal = new Web3Modal({
       cacheProvider: false,
       providerOptions, // required
     });
-  },[])
-
-  useEffect(() => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-    provider.on("network", (newNetwork, oldNetwork) => {
-      setChainId(newNetwork.chainId);
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      setSigner(provider.getSigner());
-    });
   }, []);
 
-  async function connect() {
+  useEffect(() => {
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        "any"
+      );
+      provider.on("network", async (newNetwork, oldNetwork) => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        dispatch(
+          connect({ chainId: newNetwork.chainId, signer: provider.getSigner() })
+        );
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function Connect() {
     if (typeof window.ethereum !== "undefined") {
       try {
         const web3ModalProvider = await web3Modal.connect();
-        setIsConnected(true);
         const provider = new ethers.providers.Web3Provider(web3ModalProvider);
-        setSigner(provider.getSigner());
         const { chainId } = await provider.getNetwork();
-        setChainId(chainId);
+        dispatch(connect({ chainId, signer: provider.getSigner() }));
       } catch (e) {
         console.log(e);
       }
     } else {
-      setIsConnected(false);
+      dispatch(disconnect());
     }
   }
 
-  async function disconnect() {
-    setSigner(undefined);
-    setIsConnected(false);
+  async function Disconnect() {
+    dispatch(disconnect());
     await web3Modal.clearCachedProvider();
+  }
+
+  // const setupNetwork = async () => {
+  //   const provider = window.ethereum;
+  //   if (provider) {
+  //     try {
+  //       await provider.request({
+  //         method: "wallet_addEthereumChain",
+  //         params: [
+  //           {
+  //             chainId: 4,
+  //             chainName: "Ethereum Testnet Rinkeby",
+  //             nativeCurrency: {
+  //               name: "RinkebyETH",
+  //               symbol: "RIN",
+  //               decimals: 18,
+  //             },
+  //             rpcUrls: ["https://rpc.ankr.com/eth_rinkeby","https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
+  //             blockExplorerUrls: ["https://rinkeby.etherscan.io"],
+  //           },
+  //         ],
+  //       });
+  //       return true;
+  //     } catch (error) {
+  //       console.error("Failed to setup the network in Metamask:", error);
+  //       return false;
+  //     }
+  //   } else {
+  //     console.error(
+  //       "Can't setup the BSC network on metamask because window.ethereum is undefined"
+  //     );
+  //     return false;
+  //   }
+  // };
+
+  async function wrongNetwork() {
+    Disconnect();
   }
   return (
     <header className={styles.header}>
@@ -71,42 +112,30 @@ const Header = () => {
         </NextLink>
       </div>
       <div style={{ flex: "none" }}>
-        {!isConnected && (
-          <button className={styles.connectBtn} onClick={connect}>
+        {!wallet.connected && (
+          <button className={styles.connectBtn} onClick={Connect}>
             Connect Wallet
           </button>
         )}
-        {isConnected && chainId === 4 && (
+        {wallet.connected && wallet.chainId === 4 && (
           <button
             className={styles.connectBtn}
             style={{ background: "#FF5525" }}
-            onClick={disconnect}
+            onClick={Disconnect}
           >
             Disconnect
           </button>
         )}
-        {isConnected && chainId !== 4 && (
+        {wallet.connected && wallet.chainId !== 4 && (
           <button
             className={styles.connectBtn}
             style={{ background: "red" }}
-            onClick={disconnect}
+            onClick={wrongNetwork}
           >
             Wrong Network
           </button>
         )}
       </div>
-      {/* <button
-        onClick={async () => {
-          if (isConnected) {
-            const contractAddress = process.env.NEXT_PUBLIC_CONTRACT;
-            const contract = new ethers.Contract(contractAddress, abi, signer);
-            const result = await contract.getOrder("asd");
-            console.log(result);
-          }
-        }}
-      >
-        tikla
-      </button> */}
     </header>
   );
 };

@@ -22,7 +22,7 @@ router.post("/create", async (req, res) => {
 
 router.post("/pay", (req, res) => {
   const { id,receiver } = req.body;
-  Order.findById(id, async (error, order) => {
+  Order.findOne({_id:id}).populate('products.product').exec(async(error, order) => {
     if (error) {
       res.json(error);
     } else {
