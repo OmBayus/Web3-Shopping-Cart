@@ -8,7 +8,7 @@ const Product = require("../models/product");
 router.get("/getAll", (req, res) => {
     Product.find({}, (err, products) => {
         if (err) {
-            res.json(err);
+            res.status(500).json(err);
         }
         res.json(products);
     })

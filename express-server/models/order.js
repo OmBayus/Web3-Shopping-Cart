@@ -3,12 +3,12 @@ const mongoose = require('mongoose')
 const orderSchema = new mongoose.Schema({
     products:[
         {
-            productId: {
+            product: {
                 type:mongoose.Schema.Types.ObjectId,
                 ref:"product",
                 require:true
             },
-            quantity: Number
+            quantity: Number,
         }
     ],
     email:String,
