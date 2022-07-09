@@ -31,7 +31,7 @@ router.post("/pay", (req, res) => {
           return res.json(order)
         }
         const provider = new ethers.providers.JsonRpcBatchProvider(config.CHAIN_URL);
-        const contractAddress = "0x7DCC9447b8176ee69dB5303303BE86A38B0a7ddD";
+        const contractAddress = config.CONTRACT_ADDRESS;
         const contract = new ethers.Contract(contractAddress, abi, provider);
         const result = await contract.getOrder(id);
         if (Number(result.toString()) >= Number(ethers.utils.parseEther(order.price.toString()))) {

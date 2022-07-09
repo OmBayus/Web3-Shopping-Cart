@@ -15,8 +15,8 @@ router.get("/getAll", (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-    const {name, price, description} = req.body;
-    const product = new Product({name, price, description});
+    const {name, price,img, description} = req.body;
+    const product = new Product({name, price,img, description});
     product.save()
     .then(result=>{
         res.json(result);

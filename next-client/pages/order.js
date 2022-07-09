@@ -42,17 +42,22 @@ const Order = ({ query }) => {
     }
   }
 
-  const pay = (receiver) => {
+  const pay = (receiver,setLoading) => {
     OrderService.pay(query.id, receiver)
       .then((res) => {
         if (res.data) {
           setOrderData(res.data);
+          if(setLoading){
+            setLoading(false)
+          }
         } else {
           alert("Error");
+          setLoading(false)
         }
       })
       .catch((err) => {
         alert("Error");
+        setLoading(false)
       });
   };
 
@@ -96,8 +101,9 @@ const Order = ({ query }) => {
               <div>
                 {orderData.products.map((it) => (
                   <div className={styles.item} key={it.product._id}>
-                    <Image
-                      src="https://picsum.photos/200"
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={it.product ? it.product.img : "https://picsum.photos/200"}
                       alt="item"
                       width={50}
                       height={50}

@@ -14,7 +14,7 @@ const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
-      rpc: { 4: process.env.NEXT_PUBLIC_RPC_URL }, // required
+      rpc: { [process.env.NEXT_PUBLIC_CHAIN]: process.env.NEXT_PUBLIC_RPC_URL }, // required
     },
   },
 };
@@ -68,41 +68,45 @@ const Header = () => {
     await web3Modal.clearCachedProvider();
   }
 
-  // const setupNetwork = async () => {
-  //   const provider = window.ethereum;
-  //   if (provider) {
-  //     try {
-  //       await provider.request({
-  //         method: "wallet_addEthereumChain",
-  //         params: [
-  //           {
-  //             chainId: 4,
-  //             chainName: "Ethereum Testnet Rinkeby",
-  //             nativeCurrency: {
-  //               name: "RinkebyETH",
-  //               symbol: "RIN",
-  //               decimals: 18,
-  //             },
-  //             rpcUrls: ["https://rpc.ankr.com/eth_rinkeby","https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
-  //             blockExplorerUrls: ["https://rinkeby.etherscan.io"],
-  //           },
-  //         ],
-  //       });
-  //       return true;
-  //     } catch (error) {
-  //       console.error("Failed to setup the network in Metamask:", error);
-  //       return false;
-  //     }
-  //   } else {
-  //     console.error(
-  //       "Can't setup the BSC network on metamask because window.ethereum is undefined"
-  //     );
-  //     return false;
-  //   }
-  // };
+  const setupNetwork = async () => {
+    const provider = window.ethereum
+    if (provider) {
+      const chainId = parseInt(process.env.NEXT_PUBLIC_CHAIN, 10)
+      try {
+        await provider.request({
+          method: 'wallet_addEthereumChain',
+          params: [
+            {
+              chainId: `0x${chainId.toString(16)}`,
+              chainName: 'Binance Smart Chain Mainnet',
+              nativeCurrency: {
+                name: 'BNB',
+                symbol: 'bnb',
+                decimals: 18,
+              },
+              rpcUrls: ["https://bsc-dataseed1.ninicoin.io","https://bsc-dataseed1.defibit.io","https://bsc-dataseed.binance.org"],
+              blockExplorerUrls: ['https://bscscan.com'],
+            },
+          ],
+        })
+        return true
+      } catch (error) {
+        console.error('Failed to setup the network in Metamask:', error)
+        return false
+      }
+    } else {
+      console.error("Can't setup the BSC network on metamask because window.ethereum is undefined")
+      return false
+    }
+}
 
-  async function wrongNetwork() {
-    Disconnect();
+
+  function wrongNetwork() {
+    if(!window.ethereum){
+      Disconnect();
+      return
+    }
+    setupNetwork();
   }
   return (
     <header className={styles.header}>
@@ -119,7 +123,7 @@ const Header = () => {
             Connect Wallet
           </button>
         )}
-        {wallet.connected && wallet.chainId === 4 && (
+        {wallet.connected && wallet.chainId.toString() === process.env.NEXT_PUBLIC_CHAIN && (
           <button
             className={styles.connectBtn}
             style={{ background: "#FF5525" }}
@@ -128,7 +132,7 @@ const Header = () => {
             Disconnect
           </button>
         )}
-        {wallet.connected && wallet.chainId !== 4 && (
+        {wallet.connected && wallet.chainId.toString() !== process.env.NEXT_PUBLIC_CHAIN && (
           <button
             className={styles.connectBtn}
             style={{ background: "red" }}

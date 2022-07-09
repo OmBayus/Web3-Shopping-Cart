@@ -8,6 +8,7 @@ const OwnerPage = () => {
   const [product, setProduct] = useState({
     name: "",
     price: "",
+    img: "",
     description: "",
   });
 
@@ -34,6 +35,9 @@ const OwnerPage = () => {
       <h1>Create new Product</h1>
       <div style={{ marginBottom: 10 }}>
         <TextField label="Name" name="name" variant="outlined" onChange={handleChange} />
+      </div>
+      <div style={{ marginBottom: 10 }}>
+        <TextField label="Img Url" name="img" variant="outlined" onChange={handleChange} />
       </div>
       <div style={{ marginBottom: 10 }}>
         <TextField label="Price" name="price" variant="outlined" onChange={handleChange} />
