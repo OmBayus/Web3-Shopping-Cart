@@ -20,7 +20,6 @@
 * Redux Toolkit
 * Express
 * Mongodb
-* JWT
 
 ### License & copyright
 
