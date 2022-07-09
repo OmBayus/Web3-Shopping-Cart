@@ -113,6 +113,7 @@ const Header = () => {
       <div style={{ display: "flex" }}>
         <NextLink href="/">
           <div className={styles.logo}>
+            <img src="/logo.webp" alt="logo" />
             <span className="hidden md:flex">Web3 Shopping Cart</span>
           </div>
         </NextLink>
