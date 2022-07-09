@@ -1,4 +1,4 @@
-# Web3 Shopping Cart 🛍️ 
+# Web3 Shopping Cart in BSC  🛍️ 
 ### https://web3-shopping-cart.vercel.app/
 
 ## Preview
