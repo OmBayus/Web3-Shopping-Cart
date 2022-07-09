@@ -16,7 +16,6 @@ export default function StoreCart() {
   const cart = useSelector((state) => state.cart.value);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-
   const router = useRouter();
 
   const Remove = (id,price)=>{
@@ -28,7 +27,9 @@ export default function StoreCart() {
       {!show && (
         <div className={styles.cartBtn} onClick={() => setShow(true)}>
           <ShoppingCartIcon />
-          {cart.products.length !== 0 && <span>{cart.products.length}</span>}
+          {cart.products.length !== 0 && <span>{cart.products.reduce((total,item)=>{
+            return total+item.quantity
+          },0)}</span>}
         </div>
       )}
       {show && (
@@ -48,7 +49,8 @@ export default function StoreCart() {
           <div className={styles.items}>
             {cart.products.map((it) => (
               <div className={styles.item} key={it.product}>
-                <Image src="https://picsum.photos/200" alt="item" width={50} height={50} />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={it.data ? it.data.img : "https://picsum.photos/200"} alt="item" width={50} height={50} />
                 <span>{it.data.name}</span>
                 <span>{it.data.price} BNB</span>
                 <span>{it.quantity}</span>
