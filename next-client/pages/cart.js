@@ -82,8 +82,9 @@ const CartPage = () => {
               <div>
                 {cart.products.map((it) => (
                   <div className={styles.item} key={it.product}>
-                    <Image
-                      src="https://picsum.photos/200"
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={it.data ? it.data.img : "https://picsum.photos/200"}
                       alt="item"
                       width={50}
                       height={50}

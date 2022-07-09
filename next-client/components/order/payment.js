@@ -19,7 +19,7 @@ const Payment = ({ styles, pay, id, price }) => {
         const result = await contract.getOrder(id);
         if(Number(result.toString()) >= Number(ethers.utils.parseEther(price.toString()))){
           const reciever = await wallet.signer.getAddress()
-          pay(reciever)
+          pay(reciever,setLoading)
         }
       } catch (error) {
         console.log(error);
@@ -27,7 +27,7 @@ const Payment = ({ styles, pay, id, price }) => {
     } else {
       console.log("Please install MetaMask");
     }
-    setLoading(false)
+    // setLoading(false)
   }
 
   return (
