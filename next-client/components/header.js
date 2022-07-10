@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Web3Modal from "web3modal";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { ethers } from "ethers";
 import { useSelector, useDispatch } from "react-redux";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -15,6 +15,7 @@ const providerOptions = {
     package: WalletConnectProvider, // required
     options: {
       rpc: { [process.env.NEXT_PUBLIC_CHAIN]: process.env.NEXT_PUBLIC_RPC_URL }, // required
+      network:"binance"
     },
   },
 };
@@ -25,7 +26,7 @@ const Header = () => {
 
   useEffect(() => {
     web3Modal = new Web3Modal({
-      cacheProvider: false,
+      cacheProvider: true,
       providerOptions, // required
     });
   }, []);
@@ -54,7 +55,8 @@ const Header = () => {
         const { chainId } = await provider.getNetwork();
         dispatch(connect({ chainId, signer: provider.getSigner() }));
       } else {
-        const provider = await web3Modal.connectTo("walletconnect");
+        const web3ModalProvider = await web3Modal.connect();
+        const provider = new ethers.providers.Web3Provider(web3ModalProvider);
         const { chainId } = await provider.getNetwork();
         dispatch(connect({ chainId, signer: provider.getSigner() }));
       }
@@ -66,6 +68,7 @@ const Header = () => {
   async function Disconnect() {
     dispatch(disconnect());
     await web3Modal.clearCachedProvider();
+    localStorage.removeItem("walletconnect")
   }
 
   const setupNetwork = async () => {
