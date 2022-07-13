@@ -3,7 +3,8 @@
 
 ## Preview
 
-<img src="https://drive.google.com/uc?export=view&id=1TgF9v1GgX7vmRNgxvoXhZs_GW06dpPJC"/>
+<img src="https://drive.google.com/uc?export=view&id=1_7PQ7ETmVszksPK5J4RoMFUSeFy3xERy"/>
+<img src="https://drive.google.com/uc?export=view&id=1iUxP6lEFl3Afak6Ey5GqBZ0i5ou4Awkd"/>
 
 ## Technologies used:
 
