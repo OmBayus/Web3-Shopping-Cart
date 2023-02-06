@@ -32,7 +32,7 @@ app.use(express.json());
 require("./utils/mongo");
 
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.send("Web3 Shopping Cart");
 });
 
 //using outers
